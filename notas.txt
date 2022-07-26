@@ -1,0 +1,19 @@
+se creae como siempre la api de nestjs
+
+creamos http request get y post
+
+ahora verificamos codigos de estados http
+vienen por defecto pero la podemos definir
+
+que peticion utilizar patch(actualiza parcialmente el registro) o 
+put (actualiza el registro completo o crea uno si no existe)
+
+parametros del tipo body (json)
+
+parametros del tipo query (son filtros)
+/tuits?orderby=name&searchTerm=nestjs
+parametro que se pasan por la url son tipo query
+tipo parametro valor
+
+
+
