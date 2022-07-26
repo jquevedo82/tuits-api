@@ -1,0 +1,46 @@
+nestjs (javascript - typeORM - nodejs)
+debemos instalar node
+node -v
+luego instalar npm o verificar
+npm -v
+instalamos la CLI de nest
+npm i -g @nestjs/cli
+instala nest de forma globa
+nest -v
+nest help
+instalamos postman (descargamos el admin)
+si queremos querer docker (contenedores para nuestra aplicacion)
+docker -v
+instalamos git (manejador de versiones)
+git -v
+instalamos swagger api nestjs (para la documentacion)
+npm i -g @nestjs/swagger swagger-ui-express
+
+
+primer proyecto 
+nest new api-inicio
+
+configuramos el debug para nuestro proyecto
+creamos un directorio en mi carpeta proyecto
+.vscode dentro un archivo launch.json
+y lo ejecutamos desde debug de vsc
+
+para llevar un proyecto por primera vez, debes pegar la carpeta modeules en tu carpeta api.
+
+
+/// esto es para crear un modulo del sistemas  player
+para generar una clase controladora. para el module player
+que se encarge de hacer cosas para gestionar otra ruta /player
+
+nest g co player
+
+luego creamos un clase servicior para el modulo player
+nest g s player --no-spec
+
+ahora creamos una entidad (clase) en el modulo player
+nest g cl player/player.entity --no-spec
+
+-d para probar donde y q 
+
+
+

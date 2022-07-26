@@ -12,9 +12,18 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import {
+  ApiCreatedResponse,
+  ApiForbiddenResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiTags,
+  ApiUnprocessableEntityResponse,
+} from '@nestjs/swagger';
 import { Tuit } from './tuit.entity';
 import { TuitsService } from './tuits.service';
 
+@ApiTags('tuits')
 @Controller('tuits')
 export class TuitsController {
   //private para q sea usada solo en esta clase
@@ -28,6 +37,8 @@ export class TuitsController {
     }*/
   //agregar un parametro tipo query
   @Get()
+  @ApiOkResponse({ description: 'Devuelve todos los elementos' })
+  @ApiForbiddenResponse({ description: 'Llamada no autorizada' })
   getTuits(@Query() filterQuery): Tuit[] {
     //getTuits(@Query() filterQuery): string {
     //destructuramos el parametro
@@ -39,6 +50,9 @@ export class TuitsController {
   }
 
   @Get(':id') //tuits/1
+  @ApiOkResponse({ description: 'El registro fue devuelto con exito' })
+  @ApiForbiddenResponse({ description: 'No tiene acceso' })
+  @ApiNotFoundResponse({ description: 'Registro no encontrado' })
   getTuit(@Param('id') id: string): Tuit {
     //getTuit(@Param('id') id: string): string {
     return this.tuitService.getTuit(id);
@@ -54,6 +68,9 @@ export class TuitsController {
     return body;
   }*/
   @Post()
+  @ApiCreatedResponse({ description: 'Se ha Creado' })
+  @ApiUnprocessableEntityResponse({ description: 'Error en la Llamada' })
+  @ApiForbiddenResponse({ description: 'No tiene Autorizacion' })
   //@HttpCode(HttpStatus.NO_CONTENT) //cambia el codigo de status de la peticion
   createTuit(@Body('message') message): void {
     //createTuit(@Body('message') message): string {
@@ -62,6 +79,10 @@ export class TuitsController {
   }
 
   @Patch(':id')
+  @ApiOkResponse({ description: 'El registro se ha modificado con exito!!!' })
+  @ApiNotFoundResponse({ description: 'Registro no encontrado' })
+  @ApiForbiddenResponse({ description: 'Sin autorizacion' })
+  @ApiUnprocessableEntityResponse({ description: 'Error en la llamada' })
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   updateTuit(@Param('id') id: string, @Body('message') _tuit): Tuit {
     //updateTuit(@Param('id') id: string, @Body() _tuit): string {
@@ -70,6 +91,9 @@ export class TuitsController {
   }
 
   @Delete(':id')
+  @ApiOkResponse({ description: 'El registro fue eliminado con exito!!' })
+  @ApiForbiddenResponse({ description: 'No tiene autorizacion' })
+  @ApiNotFoundResponse({ description: 'Registro no encontrado' })
   removeTuit(@Param('id') id: string): void {
     //removeTuit(@Param('id') id: string): string {
     return this.tuitService.removeTuit(id);
