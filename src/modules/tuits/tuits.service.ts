@@ -1,4 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateTuitDto } from './dto';
+
 import { Tuit } from './tuit.entity';
 
 @Injectable()
@@ -9,11 +11,15 @@ export class TuitsService {
     return this.tuits;
   }
   getTuit(id: string): Tuit {
-    return this.tuits.find((item) => item.id === id);
+    const tuit = this.tuits.find((item) => item.id === id);
+    if (!tuit) {
+      throw new NotFoundException('Registro no Encontrado2');
+    }
+    return tuit;
   }
   // si enviamos un json completo podemos ...json y lo metemos
   //en el json q se esta creando
-  createTuit(message: string) {
+  createTuit(message: CreateTuitDto /*string*/) {
     this.tuits.push({
       id: (Math.floor(Math.random() * 2000) + 1).toString(),
       message,

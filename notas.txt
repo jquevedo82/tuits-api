@@ -16,4 +16,21 @@ parametro que se pasan por la url son tipo query
 tipo parametro valor
 
 
+//dto 
+autenticacion 
+user y pass -> (json) a api service login -> dto -> id y (user name)
+toda la informacion que viaje  nuestro servidor deberia viajr convertida en unn dto
+nest g cl modules/tuits/
+carpeta de modules dentro del module de tuits 
+una carpeta nueva que se llame dto 
+create accion que va a realizar 
+tuit entidad que trabaja
+seguido de dto.ts 
+node js nos da la opcion para validar
+npm i class-validator class-transformer
+
+
+
+
+
 

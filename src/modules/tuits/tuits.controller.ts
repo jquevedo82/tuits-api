@@ -20,6 +20,7 @@ import {
   ApiTags,
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
+import { CreateTuitDto, UpdateTuitDto } from './dto';
 import { Tuit } from './tuit.entity';
 import { TuitsService } from './tuits.service';
 
@@ -52,7 +53,7 @@ export class TuitsController {
   @Get(':id') //tuits/1
   @ApiOkResponse({ description: 'El registro fue devuelto con exito' })
   @ApiForbiddenResponse({ description: 'No tiene acceso' })
-  @ApiNotFoundResponse({ description: 'Registro no encontrado' })
+  @ApiNotFoundResponse({ description: 'Registro no encontrado1' })
   getTuit(@Param('id') id: string): Tuit {
     //getTuit(@Param('id') id: string): string {
     return this.tuitService.getTuit(id);
@@ -72,7 +73,12 @@ export class TuitsController {
   @ApiUnprocessableEntityResponse({ description: 'Error en la Llamada' })
   @ApiForbiddenResponse({ description: 'No tiene Autorizacion' })
   //@HttpCode(HttpStatus.NO_CONTENT) //cambia el codigo de status de la peticion
-  createTuit(@Body('message') message): void {
+  /*createTuit(@Body('message') message): void {
+    //createTuit(@Body('message') message): string {
+    return this.tuitService.createTuit(message);
+    //return `Tu tuits es ${message}`;
+  }*/
+  createTuit(@Body() message: CreateTuitDto): void {
     //createTuit(@Body('message') message): string {
     return this.tuitService.createTuit(message);
     //return `Tu tuits es ${message}`;
@@ -84,7 +90,15 @@ export class TuitsController {
   @ApiForbiddenResponse({ description: 'Sin autorizacion' })
   @ApiUnprocessableEntityResponse({ description: 'Error en la llamada' })
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  updateTuit(@Param('id') id: string, @Body('message') _tuit): Tuit {
+  /*updateTuit(@Param('id') id: string, @Body('message') _tuit): Tuit {
+    //updateTuit(@Param('id') id: string, @Body() _tuit): string {
+    //return `El Tuit ${id} se actualizo`;
+    return this.tuitService.updateTuit(id, _tuit);
+  }*/
+  updateTuit(
+    @Param('id') id: string,
+    @Body('message') _tuit: UpdateTuitDto,
+  ): Tuit {
     //updateTuit(@Param('id') id: string, @Body() _tuit): string {
     //return `El Tuit ${id} se actualizo`;
     return this.tuitService.updateTuit(id, _tuit);
