@@ -21,7 +21,7 @@ import {
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
 import { CreateTuitDto, UpdateTuitDto } from './dto';
-import { Tuit } from './tuit.entity';
+import { Tuit } from './entities/tuit.entity';
 import { TuitsService } from './tuits.service';
 
 @ApiTags('tuits')
@@ -40,7 +40,7 @@ export class TuitsController {
   @Get()
   @ApiOkResponse({ description: 'Devuelve todos los elementos' })
   @ApiForbiddenResponse({ description: 'Llamada no autorizada' })
-  getTuits(@Query() filterQuery): Tuit[] {
+  getTuits(@Query() filterQuery): Promise<Tuit[]> {
     //getTuits(@Query() filterQuery): string {
     //destructuramos el parametro
     //indicando que valores quiero sacarle
@@ -54,7 +54,7 @@ export class TuitsController {
   @ApiOkResponse({ description: 'El registro fue devuelto con exito' })
   @ApiForbiddenResponse({ description: 'No tiene acceso' })
   @ApiNotFoundResponse({ description: 'Registro no encontrado1' })
-  getTuit(@Param('id') id: string): Tuit {
+  getTuit(@Param('id') id: number): Promise<Tuit> {
     //getTuit(@Param('id') id: string): string {
     return this.tuitService.getTuit(id);
     // return `Tu tuit es id ${id}`;
@@ -78,7 +78,7 @@ export class TuitsController {
     return this.tuitService.createTuit(message);
     //return `Tu tuits es ${message}`;
   }*/
-  createTuit(@Body() message: CreateTuitDto): void {
+  createTuit(@Body() message: CreateTuitDto): Promise<Tuit> {
     //createTuit(@Body('message') message): string {
     //verifica si message es un tipo createtuitdto
     console.log(message instanceof CreateTuitDto);
@@ -97,7 +97,10 @@ export class TuitsController {
     //return `El Tuit ${id} se actualizo`;
     return this.tuitService.updateTuit(id, _tuit);
   }*/
-  updateTuit(@Param('id') id: string, @Body() _tuit: UpdateTuitDto): Tuit {
+  updateTuit(
+    @Param('id') id: number,
+    @Body() _tuit: UpdateTuitDto,
+  ): Promise<Tuit> {
     //updateTuit(@Param('id') id: string, @Body() _tuit): string {
     //return `El Tuit ${id} se actualizo`;
 
@@ -108,7 +111,7 @@ export class TuitsController {
   @ApiOkResponse({ description: 'El registro fue eliminado con exito!!' })
   @ApiForbiddenResponse({ description: 'No tiene autorizacion' })
   @ApiNotFoundResponse({ description: 'Registro no encontrado' })
-  removeTuit(@Param('id') id: string): void {
+  removeTuit(@Param('id') id: number): Promise<void> {
     //removeTuit(@Param('id') id: string): string {
     return this.tuitService.removeTuit(id);
     //return `El Tuit ${id} se elimino`;

@@ -1,41 +1,85 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateTuitDto, UpdateTuitDto } from './dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
-import { Tuit } from './tuit.entity';
+import { CreateTuitDto, UpdateTuitDto } from './dto';
+import { Tuit } from './entities/tuit.entity';
 
 @Injectable()
 export class TuitsService {
-  private tuits: Tuit[] = [{ id: '1', message: 'Hola mundo desde Nest.js 🥩' }];
+  //  private tuits: Tuit[] = [{ id: 1, message: 'Hola mundo desde Nest.js 🥩' }];
 
-  getTuits(): Tuit[] {
+  constructor(
+    @InjectRepository(Tuit) private readonly tuitRepository: Repository<Tuit>,
+  ) {}
+
+  /*getTuits(): Tuit[] {
     return this.tuits;
+  }*/
+  async getTuits(): Promise<Tuit[]> {
+    return await this.tuitRepository.find();
   }
-  getTuit(id: string): Tuit {
+
+  /* getTuit(id: number): Tuit {
     const tuit = this.tuits.find((item) => item.id === id);
     if (!tuit) {
       throw new NotFoundException('Registro no Encontrado2');
     }
     return tuit;
   }
+  */
+
+  async getTuit(id: number): Promise<Tuit> {
+    const tuit: Tuit = await this.tuitRepository.findOneBy({ id });
+    if (!tuit) {
+      throw new NotFoundException('Registro no Encontrado2');
+    }
+    return tuit;
+  }
+
   // si enviamos un json completo podemos ...json y lo metemos
   //en el json q se esta creando
-  createTuit({ message }: CreateTuitDto /*string*/) {
-    this.tuits.push({
-      id: (Math.floor(Math.random() * 2000) + 1).toString(),
+  //createTuit({ message }: CreateTuitDto /*string*/) {
+  /*this.tuits.push({
+      id: Math.floor(Math.random() * 2000) + 1,
       message,
     });
+  }*/
+  async createTuit({ message }: CreateTuitDto /*string*/) {
+    const tuit: Tuit = this.tuitRepository.create({ message });
+    return this.tuitRepository.save(tuit);
   }
-  updateTuit(id: string, { message }: UpdateTuitDto) {
+
+  /*updateTuit(id: number, { message }: UpdateTuitDto) {
     const tuit: Tuit = this.getTuit(id);
     tuit.message = message;
     return tuit;
+  }*/
+
+  async updateTuit(id: number, { message }: UpdateTuitDto) {
+    const tuit: Tuit = await this.tuitRepository.preload({ id, message });
+    if (!tuit) {
+      throw new NotFoundException('No Existe!!!');
+    }
+    this.tuitRepository.save(tuit);
+    return tuit;
   }
-  removeTuit(id: string) {
+
+  /*
+  removeTuit(id: number) {
     //devuelve el indice del elemento buscado o -1 sino lo encontro
     const index = this.tuits.findIndex((tuit) => tuit.id === id);
     if (index >= 0) {
       //splice elimina 1 elemento apartir del elemento index
       this.tuits.splice(index, 1);
     }
+  }*/
+  async removeTuit(id: number): Promise<void> {
+    //devuelve el indice del elemento buscado o -1 sino lo encontro
+    const tuit: Tuit = await this.tuitRepository.findOneBy({ id });
+    if (!tuit) {
+      throw new NotFoundException('No Existe!!!');
+    }
+    this.tuitRepository.remove(tuit);
   }
 }
