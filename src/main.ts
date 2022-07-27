@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
@@ -28,6 +29,19 @@ async function bootstrap() {
       showRequestDuration: true,
     },
   });
+
+  //validamos los datos que llegan a nuestros metodos
+  //transformat a el dato q necesita
+  //whitelist de muchos datos solo recibe el dato que esta en el q se establece q recibe
+  //solo lo q esperamos lo demas es ignorado
+  //forbidnonwhitelisted filtra los datos que se esperan si no es lo q se espera da el error 400
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
 
   await app.listen(3000);
 }

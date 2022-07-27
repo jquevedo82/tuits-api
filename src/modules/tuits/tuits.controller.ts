@@ -80,6 +80,8 @@ export class TuitsController {
   }*/
   createTuit(@Body() message: CreateTuitDto): void {
     //createTuit(@Body('message') message): string {
+    //verifica si message es un tipo createtuitdto
+    console.log(message instanceof CreateTuitDto);
     return this.tuitService.createTuit(message);
     //return `Tu tuits es ${message}`;
   }
@@ -95,12 +97,10 @@ export class TuitsController {
     //return `El Tuit ${id} se actualizo`;
     return this.tuitService.updateTuit(id, _tuit);
   }*/
-  updateTuit(
-    @Param('id') id: string,
-    @Body('message') _tuit: UpdateTuitDto,
-  ): Tuit {
+  updateTuit(@Param('id') id: string, @Body() _tuit: UpdateTuitDto): Tuit {
     //updateTuit(@Param('id') id: string, @Body() _tuit): string {
     //return `El Tuit ${id} se actualizo`;
+
     return this.tuitService.updateTuit(id, _tuit);
   }
 

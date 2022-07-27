@@ -29,6 +29,38 @@ seguido de dto.ts
 node js nos da la opcion para validar
 npm i class-validator class-transformer
 
+ //validamos los datos que llegan a nuestros metodos
+  //transformat a el dato q necesita
+  //whitelist de muchos datos solo recibe el dato que esta en el q se establece q recibe
+  //solo lo q esperamos lo demas es ignorado
+  //forbidnonwhitelisted filtra los datos que se esperan si no es lo q se espera da el error 400
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
+
+luego vamos a trabajar con postgres sql instalamos
+dni 14808265 y puerto 5432
+luego docker instalamos
+ahi que configurar la cuenta en nuestra compu correo y demas
+docker run -d -p 8080:80 nginx
+https://hub.docker.com/_/postgres
+
+docker composer file
+
+creamos el docker-compse.yml con la configuracion
+
+configuramos postgres desde docker el server..
+//depues lo cambiaremos a nuestro computador
+montamos nuestro server 
+
+ahora montamos typeORM
+npm i typeorm pg @nestjs/typeorm
+
+
 
 
 
