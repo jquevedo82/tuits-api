@@ -1,8 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { User } from '../users/entities';
 
-import { CreateTuitDto, UpdateTuitDto } from './dto';
+import { CreateTuitDto, PaginationQueryDto, UpdateTuitDto } from './dto';
 import { Tuit } from './entities/tuit.entity';
 
 @Injectable()
@@ -11,13 +12,18 @@ export class TuitsService {
 
   constructor(
     @InjectRepository(Tuit) private readonly tuitRepository: Repository<Tuit>,
+    @InjectRepository(Tuit) private readonly userRepository: Repository<User>,
   ) {}
 
   /*getTuits(): Tuit[] {
     return this.tuits;
   }*/
-  async getTuits(): Promise<Tuit[]> {
-    return await this.tuitRepository.find();
+  async getTuits({ limit, offset }: PaginationQueryDto): Promise<Tuit[]> {
+    return await this.tuitRepository.find({
+      relations: ['user'],
+      skip: offset,
+      take: limit,
+    });
   }
 
   /* getTuit(id: number): Tuit {
@@ -30,7 +36,10 @@ export class TuitsService {
   */
 
   async getTuit(id: number): Promise<Tuit> {
-    const tuit: Tuit = await this.tuitRepository.findOneBy({ id });
+    const tuit: Tuit = await this.tuitRepository.findOne({
+      where: { id },
+      relations: ['user'],
+    });
     if (!tuit) {
       throw new NotFoundException('Registro no Encontrado2');
     }
@@ -45,8 +54,8 @@ export class TuitsService {
       message,
     });
   }*/
-  async createTuit({ message }: CreateTuitDto /*string*/) {
-    const tuit: Tuit = this.tuitRepository.create({ message });
+  async createTuit({ message, user }: CreateTuitDto /*string*/) {
+    const tuit: Tuit = this.tuitRepository.create({ message, user });
     return this.tuitRepository.save(tuit);
   }
 
@@ -76,7 +85,7 @@ export class TuitsService {
   }*/
   async removeTuit(id: number): Promise<void> {
     //devuelve el indice del elemento buscado o -1 sino lo encontro
-    const tuit: Tuit = await this.tuitRepository.findOneBy({ id });
+    const tuit: Tuit = await this.tuitRepository.findOne({ where: { id } });
     if (!tuit) {
       throw new NotFoundException('No Existe!!!');
     }

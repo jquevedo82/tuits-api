@@ -33,7 +33,8 @@ export class Tuit {
   })
   opcional: string;*/
 
-  @ManyToOne((type) => User, (user) => user.tuits, { cascade: true })
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @ManyToOne((_type) => User, (user) => user.tuits, { cascade: true })
   @JoinColumn({ name: 'user_id' })
   user: User;
 }

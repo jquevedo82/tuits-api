@@ -20,7 +20,7 @@ import {
   ApiTags,
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
-import { CreateTuitDto, UpdateTuitDto } from './dto';
+import { CreateTuitDto, PaginationQueryDto, UpdateTuitDto } from './dto';
 import { Tuit } from './entities/tuit.entity';
 import { TuitsService } from './tuits.service';
 
@@ -40,14 +40,14 @@ export class TuitsController {
   @Get()
   @ApiOkResponse({ description: 'Devuelve todos los elementos' })
   @ApiForbiddenResponse({ description: 'Llamada no autorizada' })
-  getTuits(@Query() filterQuery): Promise<Tuit[]> {
+  getTuits(@Query() pagination: PaginationQueryDto): Promise<Tuit[]> {
     //getTuits(@Query() filterQuery): string {
     //destructuramos el parametro
     //indicando que valores quiero sacarle
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { datoBuscar, orderId } = filterQuery;
+    //const { datoBuscar, orderId } = filterQuery;
     //return `Todos los tuits ${datoBuscar} odenados por ${orderId}`;
-    return this.tuitService.getTuits();
+    return this.tuitService.getTuits(pagination);
   }
 
   @Get(':id') //tuits/1
