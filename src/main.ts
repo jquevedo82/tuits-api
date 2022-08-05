@@ -42,10 +42,10 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
       transformOptions: {
         enableImplicitConversion: true,
-      }
+      },
     }),
   );
 
-  await app.listen(3000);
+  await app.listen(AppModule.port);
 }
 bootstrap();

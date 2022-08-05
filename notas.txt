@@ -60,7 +60,27 @@ montamos nuestro server
 ahora montamos typeORM
 npm i typeorm pg @nestjs/typeorm
 
+/// 05/08/22
+configuracion de nestjs 
 
+npm i save @nestjs/config
+una aplicacion puede tener el mismo codigo fuente pero configuraciones diferentes...
+
+generamos nuestro archivo .env donde estaran las variables useGlobalPipespara nuestras poreubas
+nuenca debe estar en github 
+es un archivo de ambiente 
+
+configuras primero en app.moduleluego el main.ts 
+
+recfactorizando mi bd 
+creamos una carpeta en src llamada common 
+este es una carpeta que utilizamos que es comun en el proyecto 
+dentro de ella cramos una sub carpetaenum
+y creamos nuestros enum 
+es un tipo de dato de enumeracion
+es la forma de darle descripciona una variable y su valor
+if(number === 1) pero que es 1
+if(number === MAX_VALUE) // MAX_VALUE ==1 en el enum
 
 
 
